@@ -1,0 +1,23 @@
+services:
+  otbr:
+    image: openthread/border-router:latest
+    container_name: otbr
+    network_mode: host
+    restart: unless-stopped
+
+    cap_add:
+      - NET_ADMIN
+    
+    devices:
+      - source: /dev/ttyACM0
+        target: /dev/ttyACM0
+        permissions: rw
+      - source: /dev/net/tun
+        target: /dev/net/tun
+        permissions: rw
+
+    volumes:
+      - /var/lib/otbr:/data
+
+    env_file:
+      - /home/pi/services/otbr/otbr-env.list
